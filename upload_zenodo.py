@@ -21,7 +21,7 @@ def main():
 
     metafn = zup.meta(p.inifn)
 
-    if p["use-sandbox"]:
+    if p.use_sandbox:
         base_url = "https://sandbox.zenodo.org/api"
     else:
         base_url = BASE_URL

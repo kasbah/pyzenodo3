@@ -54,7 +54,7 @@ def check_token(token: str, base_url: str):
     if not isinstance(token, str) or not token:
         raise TypeError("Token need to be a string")
 
-    r = requests.get("${base_url}/deposit/depositions", params={"access_token": token})
+    r = requests.get(f"{base_url}/deposit/depositions", params={"access_token": token})
 
     if r.status_code != 200:
         raise requests.HTTPError(f"Token accept error, status code: {r.status_code}  {r.json()['message']}")
@@ -92,10 +92,10 @@ def upload_meta(token: str, metafn: Path, depid: str):
         raise requests.HTTPError(f"Error in metadata upload, status code: {r.status_code}   {r.json()['message']}")
 
 
-def upload_data(token: str, datafn: Path, depid: str):
+def upload_data(token: str, datafn: Path, depid: str, base_url: str):
 
     r = requests.post(
-        f"{BASE_URL}/deposit/depositions/{depid}/files",
+        f"{base_url}/deposit/depositions/{depid}/files",
         params={"access_token": token},
         data={"filename": str(datafn)},
         files={"file": datafn.open("rb")},
