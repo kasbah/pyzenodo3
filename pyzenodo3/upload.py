@@ -71,7 +71,7 @@ def get_token(token: Union[str, Path]) -> str:
     return token
 
 
-def upload_meta(token: str, metafn: Path, depid: str):
+def upload_meta(token: str, metafn: Path, depid: str, base_url: str):
     """upload metadata to zenodo"""
 
     if not metafn:
@@ -85,7 +85,7 @@ def upload_meta(token: str, metafn: Path, depid: str):
     meta = metafn.read_text()
 
     r = requests.put(
-        f"{BASE_URL}/deposit/depositions/{depid}", params={"access_token": token}, data=meta, headers=HDR  # json.dumps(meta),
+        f"{base_url}/deposit/depositions/{depid}", params={"access_token": token}, data=meta, headers=HDR  # json.dumps(meta),
     )
 
     if r.status_code != 200:
@@ -131,7 +131,5 @@ def upload(metafn: Path, datafn: Path, token: Union[str, Path], base_url=BASE_UR
     depid = create(token, base_url)
     # %% Upload data
     upload_data(token, datafn, depid, base_url)
-
-
-# %% add metadata
-# upload_meta(token, metafn, depid)
+    # %% add metadata
+    upload_meta(token, metafn, depid, base_url)
